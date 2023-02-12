@@ -19,7 +19,6 @@ jobs:
           sudo chmod +x jdk11/build.sh
       - name: build镜像
         if: ${{ success() }}
-        if
         run: |
           ./jdk11/build.sh --build
       - name: 测试镜像
