@@ -1,5 +1,10 @@
 name: 构建jdk11镜像
-on: [push]
+on:
+  workflow_call:
+    inputs:
+      allowed-author:
+        required: true
+        type: string
 
 jobs:
   bash-example:
