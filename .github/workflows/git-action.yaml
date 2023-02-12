@@ -1,0 +1,32 @@
+name: 构建jdk11镜像
+on: [push]
+
+jobs:
+  bash-example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v2
+
+      - name: 登录dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.docker_user_name }}  # 配置dockerhub的认证，在Github项目主页 【Settings】 -> 【Secrets】 添加对应变量
+          password: ${{ secrets.docker_password }}
+      - name: 给脚本添加执行权限
+        if: ${{ success() }}
+        run: |
+          sudo chmod +x jdk11/build.sh
+      - name: build镜像
+        if: ${{ success() }}
+        if
+        run: |
+          ./jdk11/build.sh --build
+      - name: 测试镜像
+        if: ${{ success() }}
+        run: |
+          ./jdk11/build.sh --test
+      - name: 推送镜像
+        if: ${{ success() }}
+        run: |
+          ./jdk11/build.sh --push
